@@ -121,7 +121,7 @@ public class PlayerCape {
         this.lastBodyYaw = player.getLocation().getYaw();
         this.currentBodyYaw = player.getLocation().getYaw();
 
-        capeDisplay = EntityLib.getApi().createEntity(EntityTypes.ITEM_DISPLAY);
+        capeDisplay = EntityLib.getApi().createEntity(EntityTypes.ITEM_DISPLAY, player.getLocation());
         forceSpawn(player);
 
         task = new BukkitRunnable() {
@@ -309,7 +309,7 @@ public class PlayerCape {
             Vector3f translationVector = new Vector3f(0, y_offset, 0).add(backwardOffset);
 
             meta.setTranslation(new com.github.retrooper.packetevents.util.Vector3f(translationVector.x, translationVector.y, translationVector.z));
-            WrapperPlayServerEntityMetadata metadata = new WrapperPlayServerEntityMetadata(capeDisplay.getEntityId(), meta.entityData());
+            WrapperPlayServerEntityMetadata metadata = new WrapperPlayServerEntityMetadata(capeDisplay.getEntityId(), meta);
 
             playerManager.sendPacket(p, metadata);
 

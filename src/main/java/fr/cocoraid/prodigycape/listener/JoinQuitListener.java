@@ -46,10 +46,12 @@ public class JoinQuitListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                EntityData data = new EntityData(17, EntityDataTypes.BYTE, (byte) 126);
-                WrapperPlayServerEntityMetadata metadata = new WrapperPlayServerEntityMetadata(player.getEntityId(), List.of(data));
+                EntityData dataLine50 = new EntityData(17, EntityDataTypes.BYTE, (byte) 126); // Renamed to avoid conflict if 'data' is used later
+                List<EntityData<?>> metadataListLine50 = java.util.List.of(dataLine50);
+                WrapperPlayServerEntityMetadata metadataPacketLine50 = new WrapperPlayServerEntityMetadata(player.getEntityId(), metadataListLine50);
+                // The existing loop:
                 Bukkit.getOnlinePlayers().forEach(cur -> {
-                    playerManager.sendPacket(cur, metadata);
+                    playerManager.sendPacket(cur, metadataPacketLine50);
                 });
 
             }
@@ -97,10 +99,12 @@ public class JoinQuitListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                EntityData data = new EntityData(17, EntityDataTypes.BYTE, (byte) 126);
-                WrapperPlayServerEntityMetadata metadata = new WrapperPlayServerEntityMetadata(player.getEntityId(), List.of(data));
+                EntityData dataLine101 = new EntityData(17, EntityDataTypes.BYTE, (byte) 126); // Renamed
+                List<EntityData<?>> metadataListLine101 = java.util.List.of(dataLine101);
+                WrapperPlayServerEntityMetadata metadataPacketLine101 = new WrapperPlayServerEntityMetadata(player.getEntityId(), metadataListLine101);
+                // The existing loop:
                 Bukkit.getOnlinePlayers().forEach(cur -> {
-                    playerManager.sendPacket(cur, metadata);
+                    playerManager.sendPacket(cur, metadataPacketLine101);
                 });
 
             }
