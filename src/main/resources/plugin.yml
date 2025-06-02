@@ -1,6 +1,6 @@
-name: ProdigyCape
+name: ClassiCape
 version: '1.0.33-SNAPSHOT'
-main: fr.cocoraid.prodigycape.ProdigyCape
+main: com.cufufy.classicape.ClassiCape
 api-version: 1.19
 softdepend: [Vault,PassengerAPI]
 depend: [packetevents]

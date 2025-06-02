@@ -27,9 +27,9 @@
     "&7Date d'achat: %date"
   ],
   "help_commands": [
-    "&7- &6/cape help &7: Afficher cette aide",
-    "&7- &6/cape menu &7: Ouvrir le menu des capes",
-    "&7- &6/cape shop &7: Ouvrir la boutique de capes",
-    "&7- &6/cape apply <cape> &7: Appliquer une cape"
+    "&7- &6/classicape help &7: Afficher cette aide",
+    "&7- &6/classicape menu &7: Ouvrir le menu des capes",
+    "&7- &6/classicape shop &7: Ouvrir la boutique de capes",
+    "&7- &6/classicape apply <cape> &7: Appliquer une cape"
   ]
 }

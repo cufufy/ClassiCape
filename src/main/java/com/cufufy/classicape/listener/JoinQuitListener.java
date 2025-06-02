@@ -1,0 +1,116 @@
+package com.cufufy.classicape.listener;
+
+
+import com.github.retrooper.packetevents.manager.player.PlayerManager;
+import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
+import com.github.retrooper.packetevents.protocol.entity.data.EntityDataTypes;
+import com.github.retrooper.packetevents.protocol.entity.data.EntityMetadataProvider;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
+import com.cufufy.classicape.cape.Cape;
+import com.cufufy.classicape.database.DatabaseManager;
+import com.cufufy.classicape.manager.CapeManager;
+import com.cufufy.classicape.ClassiCape;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Arrays;
+import java.util.List;
+
+
+public class JoinQuitListener implements Listener {
+
+    private ClassiCape instance;
+    private CapeManager capeManager;
+    private DatabaseManager databaseManager;
+    private PlayerManager playerManager;
+
+    public JoinQuitListener(ClassiCape instance) {
+        this.instance = instance;
+        this.capeManager = instance.getCapeManager();
+        this.databaseManager = instance.getDatabaseManager();
+        this.playerManager = instance.getPlayerManager();
+    }
+
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                EntityData dataLine50 = new EntityData(17, EntityDataTypes.BYTE, (byte) 126); // Renamed to avoid conflict if 'data' is used later
+                List<EntityData<?>> metadataListLine50 = java.util.List.of(dataLine50);
+                WrapperPlayServerEntityMetadata metadataPacketLine50 = new WrapperPlayServerEntityMetadata(player.getEntityId(), metadataListLine50);
+                // The existing loop:
+                Bukkit.getOnlinePlayers().forEach(cur -> {
+                    playerManager.sendPacket(cur, metadataPacketLine50);
+                });
+
+            }
+        }.runTaskLaterAsynchronously(instance, 10L);
+
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Cape contributorCape = capeManager.getCapeContributors().getCape(player.getUniqueId());
+                if (contributorCape != null && !capeManager.hasCape(player)) {
+                    capeManager.applyCape(player, contributorCape);
+                    return;
+                }
+                if (!capeManager.hasCape(player)) {
+                    return;
+                }
+                if (!capeManager.ownsCape(player, capeManager.getCurrentCape(player).getCape())) {
+                    return;
+                }
+
+                capeManager.getCurrentCape(player).spawn(player);
+            }
+        }.runTaskLaterAsynchronously(instance, 10L);
+
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        if (capeManager.hasCape(player)) {
+            capeManager.getCurrentCape(player).despawn();
+        }
+        databaseManager.getDatabase().savePlayer(player.getUniqueId());
+    }
+
+    @EventHandler
+    public void asyncJoin(AsyncPlayerPreLoginEvent event) {
+        databaseManager.getDatabase().loadPlayer(event.getUniqueId());
+    }
+
+    @EventHandler
+    public void WorldChange(PlayerChangedWorldEvent event) {
+        Player player = event.getPlayer();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                EntityData dataLine101 = new EntityData(17, EntityDataTypes.BYTE, (byte) 126); // Renamed
+                List<EntityData<?>> metadataListLine101 = java.util.List.of(dataLine101);
+                WrapperPlayServerEntityMetadata metadataPacketLine101 = new WrapperPlayServerEntityMetadata(player.getEntityId(), metadataListLine101);
+                // The existing loop:
+                Bukkit.getOnlinePlayers().forEach(cur -> {
+                    playerManager.sendPacket(cur, metadataPacketLine101);
+                });
+
+            }
+        }.runTaskLaterAsynchronously(instance, 10L);
+
+
+    }
+
+}

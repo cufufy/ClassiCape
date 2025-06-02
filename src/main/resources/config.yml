@@ -1,12 +1,12 @@
-language: "en_EN"
-custom_command: "cape"
+language: "en_US"
+custom_command: "classicape"
 storage_mode: "file"
 
 #storage_mode: "mysql"
 #database_credentials:
 #  host: "localhost"
 #  port: 3306
-#  name: "prodigycape"
+#  name: "classicape"
 #  user: "root"
 #  password: "root"
 

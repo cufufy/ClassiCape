@@ -1,6 +1,6 @@
 package fr.depends.minuskube.inv;
 
-import fr.cocoraid.prodigycape.ProdigyCape;
+import com.cufufy.classicape.ClassiCape;
 import fr.depends.minuskube.inv.content.InventoryContents;
 import fr.depends.minuskube.inv.content.InventoryProvider;
 import fr.depends.minuskube.inv.opener.InventoryOpener;
@@ -158,7 +158,7 @@ public class SmartInventory {
             if(this.provider == null)
                 throw new IllegalStateException("The provider of the SmartInventory.Builder must be set.");
 
-            InventoryManager manager = this.manager != null ? this.manager : ProdigyCape.getInvManager();
+            InventoryManager manager = this.manager != null ? this.manager : ClassiCape.getInvManager();
 
             if(manager == null)
                 throw new IllegalStateException("The manager of the SmartInventory.Builder must be set, "
