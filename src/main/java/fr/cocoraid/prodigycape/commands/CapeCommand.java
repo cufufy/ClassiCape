@@ -60,8 +60,9 @@ public class CapeCommand extends BaseCommand {
     public void onCapeTest(Player player) {
         byte isCape = (byte) (toggleCape ? 126 : 127);
         EntityData data = new EntityData(17, EntityDataTypes.BYTE, (byte) isCape);
-        WrapperPlayServerEntityMetadata metadata = new WrapperPlayServerEntityMetadata(player.getEntityId(), List.of(data));
-        playerManager.sendPacket(player, metadata);
+        List<EntityData<?>> metadataList = java.util.List.of(data);
+        WrapperPlayServerEntityMetadata metadataPacket = new WrapperPlayServerEntityMetadata(player.getEntityId(), metadataList);
+        playerManager.sendPacket(player, metadataPacket);
         toggleCape = !toggleCape;
         player.sendMessage("§aCape toggled to " + (toggleCape ? "ON" : "OFF"));
     }
